@@ -1,0 +1,13 @@
+@import "tailwindcss"; 
+.primary-accent-bg {
+    background: #35928d;
+}
+.primary-accent {
+    color: #399b96;
+}
+.primary-accent-links {
+    color: #246461;
+}
+.primary-accent-hover {
+    color: #29726e;
+}
