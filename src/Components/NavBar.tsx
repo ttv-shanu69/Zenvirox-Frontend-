@@ -14,7 +14,7 @@ function NavBar() {
     { name: "General", link: "/Category/General" },
     { name: "Business", link: "/Category/Business" },
     { name: "Tech", link: "/Category/Tech" },
-    { name: "Contact", link: "/Contact" },
+    { name: "Contact", link: "/" },
   ];
 
   const handleSearch = (e: React.SubmitEvent) => {
