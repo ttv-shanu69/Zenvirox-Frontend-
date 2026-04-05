@@ -18,7 +18,7 @@ type PopularPost = {
 
 type BlogPost = {
   _id: string;
-  title: string;
+  title: string; 
   slug: string;
   excerpt: string;
   date: string;

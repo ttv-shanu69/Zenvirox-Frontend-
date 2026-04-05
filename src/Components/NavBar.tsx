@@ -4,10 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Logo from "../../public/Images/Zenvirox-Logo.png";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 function NavBar() {
-  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -23,8 +21,6 @@ function NavBar() {
     e.preventDefault();
 
     if (!searchQuery.trim()) return;
-
-    router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
 
     setSearchQuery("");
     setIsSearchOpen(false);

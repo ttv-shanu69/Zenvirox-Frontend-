@@ -24,7 +24,7 @@ type Blog = {
 const fetchCategories = async (): Promise<Category[]> => {
   try {
     const res = await api.get("/Categories");
-    console.log("Categories API Response:", res.data);
+    console.log("Categories API Response:", res.data); 
     
     let categories: Category[] = [];
     if (res.data && Array.isArray(res.data.categories)) {
