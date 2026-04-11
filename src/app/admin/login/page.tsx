@@ -18,10 +18,10 @@ export default function AdminLogin() {
     setError("");
 
     try {
-      const res = await api.post("/admin/login", {
+      const res = await api.post("https://zenvirox.tech/admin/login", {
         email,
         password
-      });
+      }); 
 
       const token = res.data.AccessToken;
       
