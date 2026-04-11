@@ -12,7 +12,7 @@ export default function AdminLogin() {
   const [error, setError] = useState("");
 
   // ✅ Fix: Change from React.SubmitEvent to React.FormEvent
-    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError("");

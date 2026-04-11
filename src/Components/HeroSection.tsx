@@ -11,7 +11,7 @@ type Category = {
 
 type Blog = {
   _id: string;
-  title: string;
+  title: string; 
   content: string;
   createdAt: string;
   featuredImage: string;
@@ -135,7 +135,7 @@ export default async function HeroSection() {
                 {categories.map((category) => (
                   <Link
                     key={category._id}
-                    href={`/category/${category.slug}`}
+                    href={`/Category/${category.slug}`}
                     className="block text-gray-700 hover:text-[#35928d] transition-colors font-medium text-lg"
                   >
                     {category.name}
@@ -225,7 +225,7 @@ export default async function HeroSection() {
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-2xl font-bold text-black">Latest</h3>
                   <Link 
-                    href="/latest"
+                    href="/"
                     className="text-xs text-[#35928d] hover:underline"
                   >
                     View all

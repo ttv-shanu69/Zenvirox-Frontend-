@@ -19,9 +19,9 @@ export function middleware(request: NextRequest) {
   }
   
   // If already logged in and tries to access login page, redirect to dashboard
-  // if (isLoginPage && token) {
-  //   return NextResponse.redirect(new URL('/admin/dashboard', request.url));
-  // }
+  if (isLoginPage && token) {
+    return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+  }
   
   return NextResponse.next();
 }
