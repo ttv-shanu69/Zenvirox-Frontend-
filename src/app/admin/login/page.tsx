@@ -18,7 +18,7 @@ export default function AdminLogin() {
     setError("");
 
     try {
-      const res = await api.post("http://zenvirox.tech/admin/login", {
+      const res = await api.post("/admin/login", {
         email,
         password
       }); 
