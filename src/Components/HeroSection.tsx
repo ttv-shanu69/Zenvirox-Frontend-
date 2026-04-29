@@ -126,24 +126,63 @@ export default async function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           {/* LEFT SIDEBAR */}
-          <aside className="lg:col-span-3">
-            <div className="sticky top-8">
-              <h2 className="text-5xl md:text-6xl font-bold text-black mb-6 tracking-tight">
-                THE<br />NEWS
-              </h2>
-              <nav className="space-y-3 mt-8">
-                {categories.map((category) => (
-                  <Link
-                    key={category._id}
-                    href={`/Category/${category.slug}`}
-                    className="block text-gray-700 hover:text-[#35928d] transition-colors font-medium text-lg"
+          <div className="mb-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-2xl font-bold text-black">Latest</h3>
+                  <Link 
+                    href="/"
+                    className="text-xs text-[#35928d] hover:underline"
                   >
-                    {category.name}
+                    View all
                   </Link>
-                ))}
-              </nav>
-            </div>
-          </aside>
+                </div>
+                
+                {latestPosts.length > 0 ? (
+                  <div className="space-y-4">
+                    {latestPosts.slice(0, 5).map((post: Blog) => {
+                      const categoryName = getCategoryName(post.category, categories);
+                      
+                      return (
+                        <article key={post._id} className="group">
+                          <Link href={`/blog/${post.slug}`} className="block">
+                            <div className="flex gap-3">
+                              {/* Small Thumbnail */}
+                              {post.featuredImage && (
+                                <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-gray-100">
+                                  <img
+                                    src={post.featuredImage}
+                                    alt={post.title}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                  />
+                                </div>
+                              )}
+                              
+                              {/* Content */}
+                              <div className="flex-1">
+                                <div className="text-xs text-gray-400 mb-1">
+                                  {formatDate(post.createdAt)}
+                                </div>
+                                <h4 className="font-semibold text-black group-hover:text-[#35928d] transition-colors line-clamp-2 text-sm">
+                                  {post.title}
+                                </h4>
+                                <div className="text-xs text-gray-400 mt-1">
+                                  {post.views || 0} views
+                                </div>
+                                {/* Optional: Show category name in latest posts */}
+                                <div className="text-xs text-[#35928d] mt-1">
+                                  {categoryName}
+                                </div>
+                              </div>
+                            </div>
+                          </Link>
+                        </article>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 text-sm">No latest posts available</p>
+                )}
+              </div>
 
           {/* MAIN CONTENT - Featured Posts */}
           <main className="lg:col-span-6 space-y-12">
@@ -196,7 +235,7 @@ export default async function HeroSection() {
                     href={`/blog/${post._id}`}
                     className="inline-flex items-center gap-2 text-[#35928d] font-medium group/link"
                   >
-                    Read More
+                    Read Morez
                     <svg
                       className="w-4 h-4 group-hover/link:translate-x-1 transition-transform"
                       fill="none"
