@@ -20,7 +20,8 @@ type BlogPost = {
   _id: string;
   title: string; 
   slug: string;
-  excerpt: string;
+  content: string; // Added content property
+  excerpt?: string;
   date: string;
   views: number;
   category: {
@@ -43,10 +44,8 @@ const fetchPopularPosts = async (): Promise<PopularPost[]> => {
     const res = await api.get("/Blogs/popularPosts");
     console.log("Popular posts response:", res.data);
     
-    // Adjust based on your API response structure
     const posts = res.data.blogs || res.data || [];
     
-    // Add rank numbers based on order
     return posts.map((post: any, index: number) => ({
       id: post._id || index,
       rank: index + 1,
@@ -74,14 +73,14 @@ const fetchAllBlogs = async (): Promise<BlogPost[]> => {
     const res = await api.get("/Blogs");
     console.log("All blogs response:", res.data);
     
-    // Adjust based on your API response structure
     const blogs = res.data.blogs || res.data || [];
     
     return blogs.map((blog: any) => ({
       _id: blog._id,
       title: blog.title,
       slug: blog.slug,
-      excerpt: blog.excerpt || blog.content?.substring(0, 160) + "...",
+      content: blog.content || "", // Added content
+      excerpt: blog.excerpt || (blog.content ? blog.content.substring(0, 160) + "..." : "No excerpt available"),
       date: new Date(blog.createdAt).toLocaleDateString('en-US', {
         month: 'long',
         day: 'numeric',
@@ -110,8 +109,26 @@ const formatDate = (dateString: string) => {
   });
 };
 
+// Clean content function
+const cleanContent = (html: string, maxLength: number = 150) => {
+  if (!html) return '';
+  
+  if (typeof window !== 'undefined') {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    let text = tempDiv.textContent || tempDiv.innerText || '';
+    text = text.replace(/\s+/g, ' ').trim();
+    
+    if (text.length > maxLength) {
+      text = text.substring(0, maxLength) + '...';
+    }
+    return text;
+  }
+  
+  return html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').substring(0, maxLength) + '...';
+};
+
 export default async function HomePage() {
-  // Fetch data in parallel
   const [popularPosts, allPosts] = await Promise.all([
     fetchPopularPosts(),
     fetchAllBlogs()
@@ -247,7 +264,7 @@ export default async function HomePage() {
                             <img
                               src={post.featuredImage}
                               alt={post.title}
-                              className="object-cover group-hover:scale-105 transition-transform duration-300"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             />
                           ) : (
                             <div className="absolute inset-0 flex items-center justify-center text-gray-400">
@@ -283,9 +300,9 @@ export default async function HomePage() {
                             {post.title}
                           </h2>
                           
-                          {/* Excerpt */}
+                          {/* Excerpt - FIXED: Using post.content or post.excerpt */}
                           <p className="text-gray-500 text-sm leading-relaxed mb-3 line-clamp-2">
-                            {post.excerpt}
+                            {cleanContent(post.content || post.excerpt || "", 200)}
                           </p>
                           
                           {/* Author & Read More */}
